@@ -23,13 +23,21 @@ router.post("/add", async (req, res) => {
     if(result){
         // extract req data from result & save it into the model 
        
-    
+        let examples=null
+        let shortDefinitions=null
+        let pronunciations=null
         console.log(result.data.word,'word')
         console.log(result.data.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0])
         // console.log(result.data.results[0].lexicalEntries[0].entries[0].senses[0].examples[0])
+        result.data.results[0].lexicalEntries[0].entries[0].senses[0].examples?(examples=result.data.results[0].lexicalEntries[0].entries[0].senses[0].examples):(null)
+        result.data.results[0].lexicalEntries[0].entries[0].pronunciations?(pronunciations=result.data.results[0].lexicalEntries[0].entries[0].pronunciations):(null)
+        result.data.results[0].lexicalEntries[0].entries[0].senses[0].shortDefinitions?(shortDefinitions=result.data.results[0].lexicalEntries[0].entries[0].senses[0].shortDefinitions):(null)
        let  dataVal={
               word :result.data.word,
-              definition :result.data.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0]
+              definition :result.data.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0],
+              examples:examples,
+              pronunciations:pronunciations,
+              shortDefinitions:shortDefinitions
         }
        
         const newData =  new Dictinory(dataVal)
@@ -71,11 +79,11 @@ router.get('/search',async(req,res)=>{
         const list = await Dictinory
           .find({ word: { $regex: `^${req.query.word}.*`, $options: "i" } })
          
-        console.log(list);
-        const filteredList = list.filter((item) => {
-          return item.word === req.query.word;
-        });
-        return res.status(200).json(filteredList);
+        // console.log(list);
+        // const filteredList = list.filter((item) => {
+        //   return item.word === req.query.word;
+        // });
+        return res.status(200).json(list);
       } catch (error) {
         console.log(error);
     

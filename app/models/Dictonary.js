@@ -9,6 +9,16 @@ const dictinorySchema = new mongoose.Schema({
       type:String,
 
   },
+  examples:{
+    type:[Object]
+  },
+  shortDefinitions:{
+    type:[Object]
+  },
+  pronunciations:{
+    type:[Object]
+  }
+
   
  
 });
